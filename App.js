@@ -46,24 +46,24 @@ constructor (props) {
 
 onMapPress(e) {
   if (this.state.toggle == true){
+    
     this.setState({
       markers: [
         ...this.state.markers,
         {
           coordinate: e.nativeEvent.coordinate,
-          des: id,
           key: id++,
           color: 'red',
-  
         },
       ],
-      
     });
     console.log(this.state.markers);
   }
+  
   else{
-    Alert.alert("El switch esta en off"); 
+    console.log("El switch esta en off"); 
   }
+  
 }
 
 
@@ -73,18 +73,21 @@ currentLocation() {
       latitude: pos.coords.latitude,
       longitude: pos.coords.longitude
     }); 
-    console.log("hola"); 
+   
     console.log(pos.coords.latitude);
     console.log(pos.coords.longitude); 
     console.log(latitude);
     console.log(longitude); 
   
   })
+
 }
+
 componentDidMount(){
   this.currentLocation(); 
-  
 }
+
+
 
 // el marker se pone en la ubicacion actual asi que eso esta bien, el tema es que no se zoomea automaticamente en donde estas
 // ahora se hace zoom bien en donde estas porque puse mi region pero hay que corregirlo 
@@ -124,7 +127,6 @@ componentDidMount(){
               coordinate={marker.coordinate}
               pinColor={marker.color}
               title={"Marker Nº" + marker.key}
-              description={"holaaa"}
               
             />
           ))}
