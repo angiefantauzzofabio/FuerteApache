@@ -88,10 +88,6 @@ componentDidMount(){
 }
 
 
-
-// el marker se pone en la ubicacion actual asi que eso esta bien, el tema es que no se zoomea automaticamente en donde estas
-// ahora se hace zoom bien en donde estas porque puse mi region pero hay que corregirlo 
-
   render() {
     
     return (
