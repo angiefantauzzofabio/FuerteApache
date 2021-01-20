@@ -62,7 +62,7 @@ onMapPress(e) {
     console.log(this.state.markers);
   }
   else{
-    Alert.alert("el switch esta en off"); 
+    Alert.alert("El switch esta en off"); 
   }
 }
 
@@ -143,13 +143,6 @@ componentDidMount(){
 
 
 const styles = StyleSheet.create({
-  texto: {
-    marginTop: 20,
-    textAlign: 'right',
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 20
- },
  map: {
    position: 'absolute',
    top: 0,
@@ -163,26 +156,6 @@ const styles = StyleSheet.create({
   alignItems: 'center',
   backgroundColor: '#F5FCFF',
 },
-  bubble: {
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 20,
-  },
-  latlng: {
-    width: 200,
-    alignItems: 'stretch',
-  },
-  button: {
-    width: 80,
-    paddingHorizontal: 12,
-    alignItems: 'flex-start',
-    marginHorizontal: 10,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginVertical: 20,
-    backgroundColor: 'transparent',
-  },
+
 });
 
