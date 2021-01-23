@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Text, Dimensions,TouchableOpacity, Switch, Alert } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Marker, AnimatedRegion } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
 const { width, height } = Dimensions.get('window');
 
@@ -11,6 +12,10 @@ const LONGITUDE = -58.4848275202878;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
+
+const origin = {latitude: -34.51257677882224, longitude: -58.48521799748956};
+const destination = {latitude: -34.54890367500137,  longitude: -58.454655947639345};
+const GOOGLE_MAPS_APIKEY = 'AIzaSyDI8wOK1ETCB0dwUEcVkig_4TPboLtlZ5k'; 
 
 export default class App extends React.Component {
 
@@ -39,7 +44,12 @@ constructor (props) {
     },
     markers: [],
 
-    toggle: false 
+    toggle: false,
+
+    destino: {
+      lat: -34.54890367500137,
+      lon: -58.454655947639345
+    }
   }
 }
 
@@ -54,21 +64,35 @@ onMapPress(e) {
           coordinate: e.nativeEvent.coordinate,
           key: id++,
           color: 'red',
+          latitude: e.nativeEvent.coordinate.latitude,
+          longitude: e.nativeEvent.coordinate.longitude
         },
       ],
     });
     console.log(this.state.markers);
   }
-  
-  else{
-    console.log("El switch esta en off"); 
-  }
-  
 }
 
+onPress(e) {
+    this.setState({
+      destino: [
+        ...this.state.destino,
+        {
+          lat: e.latitude,
+          lon: e.longitude
+        },
+      ],
+    });
+}
 
 currentLocation() {
+  var lat; 
+  var lon; 
   navigator.geolocation.getCurrentPosition(pos => {
+
+    lat = pos.coords.latitude; 
+    lon = pos.coords.longitude; 
+
     this.setState.initialRegion({
       latitude: pos.coords.latitude,
       longitude: pos.coords.longitude
@@ -80,16 +104,14 @@ currentLocation() {
     console.log(longitude); 
   
   })
-
+return (lat, lon)
 }
 
 componentDidMount(){
   this.currentLocation(); 
 }
 
-
   render() {
-    
     return (
       <View  style={styles.container}>
         <MapView style={styles.map}
@@ -102,9 +124,12 @@ componentDidMount(){
           showsUserLocation ={true}>
         
         <Marker coordinate = {{latitude:this.state.initialRegion.latitude ,longitude:this.state.initialRegion.longitude }}
-         pinColor = {"green"} // any color
-         title={"Ubicacion actual"}
-         description={"Esta es tu ubicacion actual"}/>
+         pinColor = {"green"} 
+         title={"Ubicacion actual"}/>
+
+        <Marker coordinate = {{latitude:this.state.destino.lat ,longitude:this.state.destino.lon }}
+          pinColor = {"blue"} 
+          title={"Destino"}/>
 
           <Switch 
           trackColor={{false: 'gray', true: 'teal'}}
@@ -123,17 +148,20 @@ componentDidMount(){
               coordinate={marker.coordinate}
               pinColor={marker.color}
               title={"Marker Nº" + marker.key}
+              description={JSON.stringify(marker.coordinate)}
               
             />
           ))}
+
+          <MapViewDirections
+              origin={origin}
+              destination={destination}
+              apikey={GOOGLE_MAPS_APIKEY}
+              strokeWidth = {3}
+              strokeColor = {'black'}
+          />
         
       </MapView>
-      <View >
-          <TouchableOpacity
-            onPress={() => this.setState({ markers: [] })}
-          >
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }
