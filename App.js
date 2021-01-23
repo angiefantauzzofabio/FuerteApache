@@ -15,7 +15,7 @@ let id = 0;
 
 const origin = {latitude: -34.51257677882224, longitude: -58.48521799748956};
 const destination = {latitude: -34.54890367500137,  longitude: -58.454655947639345};
-const GOOGLE_MAPS_APIKEY = 'AIzaSyDI8wOK1ETCB0dwUEcVkig_4TPboLtlZ5k'; 
+const GOOGLE_MAPS_APIKEY = '...'; 
 
 export default class App extends React.Component {
 
