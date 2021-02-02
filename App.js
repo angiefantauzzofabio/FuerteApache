@@ -10,7 +10,7 @@ const { width, height } = Dimensions.get('window');
 const origin = {latitude: -34.51257677882224, longitude: -58.48521799748956};
 const destination = {latitude: -34.54890367500137,  longitude: -58.454655947639345};
 const GOOGLE_MAPS_APIKEY = ''; 
-
+let id = 0;
 const latDelta = 0.025; 
 const lonDelta = 0.025; 
 
@@ -19,13 +19,7 @@ export default class App extends React.Component {
 constructor (props) {
   super(props)
   this.state = {
-    initialRegion:{
-      latitude: -34.51260962788937,
-      longitude: -58.4848275202878,
-      latDelta,
-      lonDelta
-    },
-
+    
     region: {
       latitude: -34.51260962788937,
       longitude: -58.4848275202878,
@@ -36,10 +30,10 @@ constructor (props) {
 
     toggle: false,
 
-    destino: {
-      lat: -34.54890367500137,
-      lon: -58.454655947639345
-    }
+    //destino: {
+    //  lat: -34.54890367500137,
+    //  lon: -58.454655947639345
+    //}
   }
 }
 
@@ -63,33 +57,16 @@ onMapPress(e) {
   }
 }
 
-onPress(e) {
-    this.setState({
-      destino: [
-        ...this.state.destino,
-        {
-          lat: e.latitude,
-          lon: e.longitude
-        },
-      ],
-    });
-}
-
 currentLocation() {
   navigator.geolocation.getCurrentPosition(pos => {
 
-    lat = pos.coords.latitude; 
-    lon = pos.coords.longitude; 
-
-    this.setState.region({
+    let initialPosition = {
       latitude: pos.coords.latitude,
-      longitude: pos.coords.longitude
-    }); 
-   
-    console.log(pos.coords.latitude);
-    console.log(pos.coords.longitude); 
-    console.log(latitude);
-    console.log(longitude); 
+      longitude: pos.coords.longitude,
+      latitudeDelta: 0.025,
+      longitudeDelta: 0.025
+    }
+    this.setState({initialPosition}); 
   })
 }
 
@@ -98,7 +75,7 @@ componentDidMount(){
 }
 
 onChangeValue = region =>{
-  alert(JSON.stringify(region))
+  console.log(JSON.stringify(region))  //poner un boton en donde se confirme la ubicacion  
   this.setState({
     region
   })
@@ -110,23 +87,17 @@ onChangeValue = region =>{
       <View  style={styles.container}>
         <MapView style={styles.map}
           provider={PROVIDER_GOOGLE}
+          ref={map => this._map = map}
+          initialRegion={this.state.initialPosition}
           //followUserLocation={true}
           onRegionChangeComplete ={this.onChangeValue}
-          zoomEnabled={true}
-          initialRegion={this.state.region}
+          //zoomEnabled={true}
           onPress={e => this.onMapPress(e)}
           showsUserLocation ={true}>
 
-        <Marker coordinate = {{latitude:this.state.initialRegion.latitude ,longitude:this.state.initialRegion.longitude }}
-         pinColor = {"green"} 
-         title={"Ubicacion actual"}/>
-
-        <View style = {{top: '50%', left: '50%', marginLeft: -24, marginTop:-48, position:'absolute'}}> 
+        <View style = {{top: '50%', left: '50%', marginLeft: -24, marginTop:-48, position:'center'}}> 
           <Image style={{height:48, width:48, justifyContent: 'center', alignItems: 'center'}} source= {require('./assets/marker.png')}/>
         </View>
-
-        
-        
 
           <Switch 
           trackColor={{false: 'gray', true: 'blue'}}
@@ -174,7 +145,7 @@ const styles = StyleSheet.create({
 marker: {
   height: 48,
   width: 48
-}
+},
 
 });
 
