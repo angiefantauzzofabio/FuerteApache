@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions,TouchableOpacity, Switch, Alert } from 'react-native'
+import { StyleSheet, View, Text, Dimensions,TouchableOpacity, Switch, Alert, Image } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Marker, AnimatedRegion } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,7 +16,10 @@ let id = 0;
 
 const origin = {latitude: -34.51257677882224, longitude: -58.48521799748956};
 const destination = {latitude: -34.54890367500137,  longitude: -58.454655947639345};
-const GOOGLE_MAPS_APIKEY = '...'; 
+const GOOGLE_MAPS_APIKEY = 'AIzaSyDI8wOK1ETCB0dwUEcVkig_4TPboLtlZ5k'; 
+
+const latDelta = 0.025; 
+const lonDelta = 0.025; 
 
 export default class App extends React.Component {
 
@@ -25,22 +29,15 @@ constructor (props) {
     initialRegion:{
       latitude: -34.51260962788937,
       longitude: -58.4848275202878,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421
+      latDelta,
+      lonDelta
     },
 
     region: {
       latitude: -34.51260962788937,
       longitude: -58.4848275202878,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421
-    },
-
-    reg: {
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
+      latDelta,
+      lonDelta
     },
     markers: [],
 
@@ -93,7 +90,7 @@ currentLocation() {
     lat = pos.coords.latitude; 
     lon = pos.coords.longitude; 
 
-    this.setState.initialRegion({
+    this.setState.region({
       latitude: pos.coords.latitude,
       longitude: pos.coords.longitude
     }); 
@@ -111,28 +108,40 @@ componentDidMount(){
   this.currentLocation(); 
 }
 
+onChangeValue = region =>{
+  alert(JSON.stringify(region))
+  this.setState({
+    region
+  })
+ 
+}
+
+
   render() {
     return (
       <View  style={styles.container}>
         <MapView style={styles.map}
           provider={PROVIDER_GOOGLE}
-          region={this.state.region}
-          followUserLocation={true}
+          //followUserLocation={true}
+          onRegionChangeComplete ={this.onChangeValue}
           zoomEnabled={true}
-          initialRegion={this.state.initialRegion}
+          initialRegion={this.state.region}
           onPress={e => this.onMapPress(e)}
           showsUserLocation ={true}>
-        
+
         <Marker coordinate = {{latitude:this.state.initialRegion.latitude ,longitude:this.state.initialRegion.longitude }}
          pinColor = {"green"} 
          title={"Ubicacion actual"}/>
 
-        <Marker coordinate = {{latitude:this.state.destino.lat ,longitude:this.state.destino.lon }}
-          pinColor = {"blue"} 
-          title={"Destino"}/>
+        <View style = {{top: '50%', left: '50%', marginLeft: -24, marginTop:-48, position:'absolute'}}> 
+          <Image style={{height:48, width:48, justifyContent: 'center', alignItems: 'center'}} source= {require('./assets/marker.png')}/>
+        </View>
+
+        
+        
 
           <Switch 
-          trackColor={{false: 'gray', true: 'teal'}}
+          trackColor={{false: 'gray', true: 'blue'}}
           thumbColor="white"
           ios_backgroundColor="gray"
           onValueChange={(value) => this.setState({toggle: value})}
@@ -152,14 +161,6 @@ componentDidMount(){
               
             />
           ))}
-
-          <MapViewDirections
-              origin={origin}
-              destination={destination}
-              apikey={GOOGLE_MAPS_APIKEY}
-              strokeWidth = {3}
-              strokeColor = {'black'}
-          />
         
       </MapView>
       </View>
@@ -182,6 +183,10 @@ const styles = StyleSheet.create({
   alignItems: 'center',
   backgroundColor: '#F5FCFF',
 },
+marker: {
+  height: 48,
+  width: 48
+}
 
 });
 
