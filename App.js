@@ -7,16 +7,9 @@ import MapViewDirections from 'react-native-maps-directions';
 
 const { width, height } = Dimensions.get('window');
 
-const ASPECT_RATIO = width / height;
-const LATITUDE = -34.51260962788937;
-const LONGITUDE = -58.4848275202878;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-let id = 0;
-
 const origin = {latitude: -34.51257677882224, longitude: -58.48521799748956};
 const destination = {latitude: -34.54890367500137,  longitude: -58.454655947639345};
-const GOOGLE_MAPS_APIKEY = 'AIzaSyDI8wOK1ETCB0dwUEcVkig_4TPboLtlZ5k'; 
+const GOOGLE_MAPS_APIKEY = ''; 
 
 const latDelta = 0.025; 
 const lonDelta = 0.025; 
@@ -83,8 +76,6 @@ onPress(e) {
 }
 
 currentLocation() {
-  var lat; 
-  var lon; 
   navigator.geolocation.getCurrentPosition(pos => {
 
     lat = pos.coords.latitude; 
@@ -99,9 +90,7 @@ currentLocation() {
     console.log(pos.coords.longitude); 
     console.log(latitude);
     console.log(longitude); 
-  
   })
-return (lat, lon)
 }
 
 componentDidMount(){
@@ -113,7 +102,6 @@ onChangeValue = region =>{
   this.setState({
     region
   })
- 
 }
 
 
