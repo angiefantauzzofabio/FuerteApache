@@ -75,7 +75,6 @@ componentDidMount(){
 }
 
 onChangeValue = region =>{
-  console.log(JSON.stringify(region))  //poner un boton en donde se confirme la ubicacion  
   this.setState({
     region
   })
@@ -98,7 +97,13 @@ onChangeValue = region =>{
         <View style = {{top: '50%', left: '50%', marginLeft: -24, marginTop:-48, position:'center'}}> 
           <Image style={{height:48, width:48, justifyContent: 'center', alignItems: 'center'}} source= {require('./assets/marker.png')}/>
         </View>
-
+        
+      <View style = {{align:"center"}}>
+        <TouchableOpacity style= {styles.button}onPress={()=>{alert(JSON.stringify("latitdud: " + this.state.region.latitude + " longitude: " + this.state.region.longitude))}}>
+          <Text style={styles.text} >Confirmar ubicacion</Text>
+        </TouchableOpacity>
+      </View>
+        
           <Switch 
           trackColor={{false: 'gray', true: 'blue'}}
           thumbColor="white"
@@ -146,6 +151,18 @@ marker: {
   height: 48,
   width: 48
 },
+button:{
+  backgroundColor: '#98FF98',
+  borderRadius: 12,
+  padding: 10,
+  alignItems: 'center',
+  transform:[{ scaleX: .9}, { scaleY: .9}],
+  
+},
+text :{
+  alignSelf: 'center',
+  fontSize: 16
+}
 
 });
 
