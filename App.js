@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Text, Dimensions,TouchableOpacity, Switch, Alert, Image } from 'react-native'
-import MapView, { PROVIDER_GOOGLE, Marker, AnimatedRegion } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker, AnimatedRegion, Circle } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import Geocoder from 'react-native-geocoder';
 
 
 const { width, height } = Dimensions.get('window');
@@ -78,9 +79,21 @@ onChangeValue = region =>{
   this.setState({
     region
   })
+  //this.getAdress(this.state.region.latitude, this.state.region.longitude); 
 }
 
+getAdress(lat, lon){
+Geocoder.geocodePosition(lat, lon).then(res => {
+  // res is an Array of geocoding object (see below)
+})
+.catch(err => console.log(err))
 
+// Address Geocoding
+Geocoder.geocodeAddress('hola?').then(res => {
+  // res is an Array of geocoding object (see below)
+})
+.catch(err => console.log(err))
+}
   render() {
     return (
       <View  style={styles.container}>
@@ -99,7 +112,7 @@ onChangeValue = region =>{
         </View>
         
       <View style = {{align:"center"}}>
-        <TouchableOpacity style= {styles.button}onPress={()=>{alert(JSON.stringify("latitdud: " + this.state.region.latitude + " longitude: " + this.state.region.longitude))}}>
+        <TouchableOpacity style= {styles.button}onPress={()=>{alert(JSON.stringify("latituud: " + this.state.region.latitude + " longitude: " + this.state.region.longitude))}}>
           <Text style={styles.text} >Confirmar ubicacion</Text>
         </TouchableOpacity>
       </View>
