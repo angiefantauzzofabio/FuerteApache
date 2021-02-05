@@ -35,9 +35,57 @@ constructor (props) {
     //  lat: -34.54890367500137,
     //  lon: -58.454655947639345
     //}
+
+    residuos: [
+      {
+        id_residuo:"1",
+        ubicacion:{
+          lat: -34.50469966861708,
+          lon: -58.48879929631948,
+        },
+        cantidad_bolsas:"4",
+        //fecha_hora_emision:"",
+      },
+      {
+        id_residuo:"2",
+        ubicacion:{
+          lat: -34.51865274201799,
+          lon: -58.49203269928694,
+        },
+        cantidad_bolsas:"2",
+        //fecha_hora_emision:"",
+      },
+      {
+        id_residuo:"3",
+        ubicacion:{
+          lat:-34.52326678455729 ,
+          lon: -58.48206594586372,
+        },
+        cantidad_bolsas:"2",
+        //fecha_hora_emision:"",
+      },
+      {
+        id_residuo:"4",
+        ubicacion:{
+          lat: -34.52571085560793 ,
+          lon:-58.491232730448246,
+        },
+        cantidad_bolsas:"1",
+       // fecha_hora_emision:"",
+      },
+      {
+        id_residuo:"5",
+        ubicacion:{
+          lat: -34.50469966861708,
+          lon: -58.48239921033383,
+        },
+        cantidad_bolsas: "3",
+        //fecha_hora_emision:"",
+      }
+      
+    ]
   }
 }
-
 
 onMapPress(e) {
   if (this.state.toggle == true){
@@ -79,21 +127,35 @@ onChangeValue = region =>{
   this.setState({
     region
   })
-  //this.getAdress(this.state.region.latitude, this.state.region.longitude); 
+  
+}
+getResiduos(){
+  if (this.state.residuos[0] != null) {
+      for (var j = 0; j < this.state.residuos.length; j= j +1) {
+        this.setState({
+          r: [
+            ...this.state.markers,
+            {
+              id: this.state.residuos[j].id,
+              latitude: this.state.residuos[j].ubicacion.lat,
+              longitude: this.state.residuos[j].ubicacion.lon,
+              bolsas: this.state.residuos[j].cantidad_bolsas
+            },
+          ],
+        });
+        console.log(this.state.markers)        }
+  }
 }
 
-getAdress(lat, lon){
-Geocoder.geocodePosition(lat, lon).then(res => {
-  // res is an Array of geocoding object (see below)
-})
-.catch(err => console.log(err))
-
-// Address Geocoding
-Geocoder.geocodeAddress('hola?').then(res => {
-  // res is an Array of geocoding object (see below)
-})
-.catch(err => console.log(err))
+markersResiduos = () => {
+  return this.state.residuos.map((residuos, item) => <Marker
+    key={item} //sino me tira un error (warning each child in a list should have a unique key prop)
+    coordinate={{ latitude: residuos.ubicacion.lat, longitude: residuos.ubicacion.lon }}
+    description={'En ese punto hay ' + residuos.cantidad_bolsas + ' bolsas'} 
+  >
+  </Marker >)
 }
+
   render() {
     return (
       <View  style={styles.container}>
@@ -106,9 +168,11 @@ Geocoder.geocodeAddress('hola?').then(res => {
           //zoomEnabled={true}
           onPress={e => this.onMapPress(e)}
           showsUserLocation ={true}>
+          
+          {this.markersResiduos()}
 
-        <View style = {{top: '50%', left: '50%', marginLeft: -24, marginTop:-48, position:'center'}}> 
-          <Image style={{height:48, width:48, justifyContent: 'center', alignItems: 'center'}} source= {require('./assets/marker.png')}/>
+        <View style = {{top: '50%', left: '50%', marginLeft: -24, marginTop:-48, position:'absolute'}}> 
+          <Image style={{height:48, width:48, justifyContent: 'center'}} source= {require('./assets/marker.png')}/>
         </View>
         
       <View style = {{align:"center"}}>
