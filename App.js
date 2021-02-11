@@ -155,7 +155,7 @@ markersResiduos = () => {
           {this.markersResiduos()}
 
         <View style = {{top: '50%', left: '50%', marginLeft: -24, marginTop:-48, position:'absolute'}}> 
-          <Image style={{height:48, width:48, justifyContent: 'center'}} source= {require('./assets/marker.png')}/>
+          <Image style={{height:48, width:48, justifyContent: 'center', alignSelf: 'center'}} source= {require('./assets/marker.png')}/>
         </View>
         
       <View style = {{align:"center"}}>
