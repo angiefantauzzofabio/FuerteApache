@@ -129,23 +129,6 @@ onChangeValue = region =>{
   })
   
 }
-getResiduos(){
-  if (this.state.residuos[0] != null) {
-      for (var j = 0; j < this.state.residuos.length; j= j +1) {
-        this.setState({
-          r: [
-            ...this.state.markers,
-            {
-              id: this.state.residuos[j].id,
-              latitude: this.state.residuos[j].ubicacion.lat,
-              longitude: this.state.residuos[j].ubicacion.lon,
-              bolsas: this.state.residuos[j].cantidad_bolsas
-            },
-          ],
-        });
-        console.log(this.state.markers)        }
-  }
-}
 
 markersResiduos = () => {
   return this.state.residuos.map((residuos, item) => <Marker
